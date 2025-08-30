@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import Hero from '@/components/Hero';
+import UploadForm from '@/components/UploadForm';
+import Results from '@/components/Results';
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<'hero' | 'upload' | 'results'>('hero');
+  const [resultData, setResultData] = useState(null);
+
+  const handleShowUpload = () => setCurrentView('upload');
+  const handleShowResults = (data: any) => {
+    setResultData(data);
+    setCurrentView('results');
+  };
+  const handleBackToUpload = () => setCurrentView('upload');
+  const handleStartOver = () => {
+    setCurrentView('hero');
+    setResultData(null);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      {currentView === 'hero' && <Hero onGetStarted={handleShowUpload} />}
+      {currentView === 'upload' && (
+        <UploadForm onBack={handleStartOver} onResult={handleShowResults} />
+      )}
+      {currentView === 'results' && resultData && (
+        <Results 
+          data={resultData} 
+          onBack={handleBackToUpload} 
+          onStartOver={handleStartOver} 
+        />
+      )}
+    </>
   );
 };
 
