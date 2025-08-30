@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Database, Mail, Play } from 'lucide-react';
+import Navbar from './Navbar';
 
 interface HeroProps {
   onGetStarted: () => void;
+  isLoggedIn: boolean;
+  onAuthClick: () => void;
+  onProfileClick: () => void;
 }
 
-const Hero = ({ onGetStarted }: HeroProps) => {
+const Hero = ({ onGetStarted, isLoggedIn, onAuthClick, onProfileClick }: HeroProps) => {
   const [showTyping, setShowTyping] = useState(false);
 
   useEffect(() => {
@@ -16,18 +20,11 @@ const Hero = ({ onGetStarted }: HeroProps) => {
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      {/* Navigation */}
-      <nav className="flex justify-between items-center p-6 relative z-10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-lg">D</span>
-          </div>
-          <span className="text-2xl font-bold text-foreground">Datrix</span>
-        </div>
-        <Button variant="primary" size="lg">
-          Try Now
-        </Button>
-      </nav>
+      <Navbar 
+        isLoggedIn={isLoggedIn}
+        onAuthClick={onAuthClick}
+        onProfileClick={onProfileClick}
+      />
 
       {/* Floating Icons */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
